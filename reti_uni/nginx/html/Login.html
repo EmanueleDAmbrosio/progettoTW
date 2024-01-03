@@ -1,0 +1,154 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EDFilms</title>
+
+    <link rel="icon" href="Icona_Scheda.png" sizes="32x32">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg" style="background-color: #33006E;">
+
+        <div class="container-fluid" style="background-color: #33006E;">
+            <a class="navbar-brand" href="#"><img src="Logo.png" alt="Bootstrap" width="120" height="90"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarScroll">
+                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="Home.html" style="color: white;"><h5>Home</h5></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="nuovo.html" style="color: white;"><h5>Film</h5></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
+                            <h5>Accesso</h5>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="Login.html">Login</a></li>
+                  
+                            <li><a class="dropdown-item" href="Registrazione.html">Registrazione</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search" onsubmit="event.preventDefault(); SEARCH()" method="POST">
+                    <input class="form-control me-2" type="search" placeholder="Cerca..." aria-label="Search" name="search_query" id="nome">
+                    <button class="btn btn-outline-success" type="submit" style="color:#FFFFFF">Ricerca</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Login Form Container -->
+<div class="container mt-5">
+    <!-- Row for form alignment -->
+    <div class="row justify-content-center">
+        <!-- Form Column -->
+        <div class="col-md-3">
+            <!-- Login Form -->
+            <form onsubmit="event.preventDefault(); LOGIN()" method="post" class="custom-form">
+                <!-- Title -->
+                <h4 class="card-title text-center">Login</h4>
+                <br>
+                <!-- First row: Username -->
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label for="name" class="form-label">Username:</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                </div>
+                <!-- Second row: Password -->
+                <div class="col-md-12">
+                    <label for="password" class="form-label">Password:</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <!-- Third row (email) -->
+                <br>
+                <!-- Submit Button -->
+                <button class="btn btn-outline-success mx-auto d-block" type="submit" style="color: #FFFFFF;">Confirm</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JavaScript Library -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+<!-- JavaScript function for handling login -->
+<script>
+    function LOGIN() {
+        // Prepare the data from form inputs
+        let requestBody = {
+            name: document.getElementById('name').value,
+            password: document.getElementById('password').value
+        };
+
+        // Convert data to JSON format
+        let jsonString = JSON.stringify(requestBody);
+
+        // Send a POST request to the server's login API endpoint
+        fetch('http://127.0.0.1/api/login', {
+            method: 'POST',
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: jsonString
+        })
+        // Parse the response from the server as JSON
+        .then(response => response.json())
+        // Handle the response data
+        .then(response => {
+            // Log the response data to the console
+            console.log(response);
+            // Redirect the user to 'nuovo.html' upon successful login
+            window.location.href = 'nuovo.html';
+        });
+    }
+</script>
+
+        function SEARCH() {
+            let nome = document.getElementById('nome').value;
+            let url = `http://127.0.0.1/api/search?nome=${encodeURIComponent(nome)}`;
+
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json(); // Attendiamo la risposta come JSON
+            })
+            .then(responseJson => {
+                if (responseJson.film) {
+                    // Serializza l'oggetto film in una stringa JSON e passalo nell'URL
+                    let filmData = encodeURIComponent(JSON.stringify(responseJson.film));
+
+                    // Reindirizzamento alla pagina search.html con i dati nell'URL
+                    window.location.href = `search.html?nome=${filmData}`;
+                } else {
+                    console.log(responseJson.error); // Messaggio se non è stato trovato alcun film
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+      </script> 
+</body>
+
+</html>
