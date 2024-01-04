@@ -47,7 +47,7 @@
   </div>
     <div id="filmsContainer" class="cont">
         <div class="container">
-             <!-- Qui verranno aggiunti dinamicamente i dati dei film -->
+             <!-- Movie data will be dynamically added here -->
         </div>
     </div>
 
@@ -58,7 +58,7 @@
         animateDivsToCenter(); // Move the divs to the center with animation
     }, 100); // Delay the animation by 100 milliseconds after the page loads
 
-    // Attiva un gestore di eventi click per ogni div con la classe animatedDiv
+    // Activate a click event handler for each div with the class animatedDiv as well
     document.querySelectorAll('.animatedDiv').forEach(div => {
         div.addEventListener('click', () => {
             const imgSrc = div.querySelector('img').getAttribute('src');
@@ -151,11 +151,11 @@ function getFilmLibrary() {
                 const modalOverlay = document.querySelector('.modal-overlay');
                 const innerDiv = document.getElementById('innerDiv');
 
-                innerDiv.innerHTML = ''; // Rimuove il contenuto
-                modalOverlay.style.display = 'none'; // Nasconde il modal
+                innerDiv.innerHTML = ''; // Remove the content
+                modalOverlay.style.display = 'none'; // Hide the modal overlay
             }
 
-            // Dopo aver aggiunto tutti i div, aggiungiamo la funzione per centrarli
+            // After adding all the divs, let's add the function to center them
             animateDivsToCenter();
         } else {
             console.log('Nessun film trovato.');
@@ -167,9 +167,9 @@ function getFilmLibrary() {
 }
 
         function getRandomClass() {
-            const classes = ['blue', 'red', 'green', 'yellow']; // Elenco delle classi disponibili
-            const randomIndex = Math.floor(Math.random() * classes.length); // Genera un indice casuale
-            return classes[randomIndex]; // Restituisce una classe casuale dall'elenco
+            const classes = ['blue', 'red', 'green', 'yellow']; // List of available classes
+            const randomIndex = Math.floor(Math.random() * classes.length); // Generate a random index
+            return classes[randomIndex]; // Return a random class from the list
         }
 
         function animateDivsToCenter() {
@@ -210,7 +210,7 @@ function getFilmLibrary() {
             // Set the container's width to accommodate all positioned divs
             container.style.width = totalWidth + 'px';
         }
-        // Questa funzione gestirà l'apertura della schermata al centro
+        // This function will handle opening the screen in the center
 function openModal(videoSrc, h1Text, liElements) {console.log("openModal function called");
     const modalOverlay = document.querySelector('.modal-overlay');
     const innerDiv = document.getElementById('innerDiv');
@@ -224,23 +224,21 @@ function openModal(videoSrc, h1Text, liElements) {console.log("openModal functio
     const textContainer = document.createElement('div');
     const h1TextElement = document.createElement('h1');
     const ulTextElement = document.createElement('ul');
-    console.log("b");
     h1TextElement.textContent = h1Text;
     liElements.forEach(li => {
         const liText = document.createElement('li');
         liText.textContent = li.textContent;
         ulTextElement.appendChild(liText);
     });
-    console.log("c");
     textContainer.appendChild(h1TextElement);
     textContainer.appendChild(ulTextElement);
     
-    // Aggiorna innerDiv con il video e il testo
+    // To update innerDiv with the video and text
     innerDiv.innerHTML = '';
     innerDiv.appendChild(videoElement);
     innerDiv.appendChild(textContainer);
 
-    // Imposta lo stile per mostrare la schermata al centro
+    // To set the style to display the screen in the center
     innerDiv.style.position = 'fixed';
     innerDiv.style.top = '50%';
     innerDiv.style.left = '50%';
@@ -262,17 +260,17 @@ function openModal(videoSrc, h1Text, liElements) {console.log("openModal functio
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.json(); // Attendiamo la risposta come JSON
+                return response.json(); // We expect the response as JSON
             })
             .then(responseJson => {
                 if (responseJson.film) {
-                    // Serializza l'oggetto film in una stringa JSON e passalo nell'URL
+                    // Serialize the 'film' object into a JSON string and pass it in the URL
                     let filmData = encodeURIComponent(JSON.stringify(responseJson.film));
 
-                    // Reindirizzamento alla pagina search.html con i dati nell'URL
+                    // Redirect to the search.html page with the data in the URL
                     window.location.href = `search.html?nome=${filmData}`;
                 } else {
-                    console.log(responseJson.error); // Messaggio se non è stato trovato alcun film
+                    console.log(responseJson.error); // Send a message in the console window if there was an error
                 }
             })
             .catch(error => {
@@ -281,5 +279,4 @@ function openModal(videoSrc, h1Text, liElements) {console.log("openModal functio
         }
     </script>
 </body>
-</html>
 </html>
