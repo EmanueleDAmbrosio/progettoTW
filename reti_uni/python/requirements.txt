@@ -1,6 +1,0 @@
-flask
-flask-login
-flask-sqlalchemy
-mysql
-mysqlclient==2.2.1
-mysql-connector-python
